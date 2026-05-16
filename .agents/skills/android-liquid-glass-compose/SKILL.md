@@ -21,7 +21,9 @@ Use this skill for changes in `glass-nav-compose`.
    - Stateless API: `LiquidGlassBottomNavigationBar`.
    - Style tokens: `LiquidGlassNavigationStyle`.
    - Android 13+ AGSL surface layer: `LiquidGlassAgslOverlay.kt`.
-   - Demo app usage: `ui/demo/LiquidGlassDemoScreen.kt`.
+   - Demo app shell: `ui/demo/LiquidGlassDemoScreen.kt`.
+   - Demo design components: `ui/demo/components`.
+   - Demo sample data: `ui/demo/model`.
 
 3. Preserve the renderer split:
 
@@ -50,11 +52,12 @@ Use this skill for changes in `glass-nav-compose`.
    /Users/taehwankwon/Library/Android/sdk/platform-tools/adb shell am start -n app.thdev.myapplication/.MainActivity
    ```
 
-   Store screenshots and behavior videos in `docs/assets`.
+   Store screenshots, and only necessary behavior videos, in `docs/assets`.
 
 ## Quality Bar
 
 - Prefer existing Compose patterns and local style tokens over new one-off modifiers.
+- Keep demo screen orchestration separate from demo design components and sample data.
 - Keep AGSL shader constants small and explain only non-obvious shader decisions.
 - Do not add a new dependency unless the repo cannot reasonably implement the behavior with Compose, Android graphics APIs, or the existing backdrop library.
 - Commit UI-visible changes with updated screenshots when possible.

@@ -13,15 +13,13 @@ The backdrop library is still used to capture and blur content behind the bar. T
 
 ## Preview
 
-Screenshots and a short behavior capture are stored under `docs/assets`.
+Screenshots are stored under `docs/assets`.
 
 <p align="center">
   <img src="docs/assets/glass-nav-idle.png" width="230" alt="Glass navigation over a bright surface" />
   <img src="docs/assets/glass-nav-dark.png" width="230" alt="Glass navigation adapting over a darker surface" />
   <img src="docs/assets/glass-nav-interaction.png" width="230" alt="Glass navigation while dragging between items" />
 </p>
-
-[Behavior capture (MP4)](docs/assets/glass-nav-demo.mp4)
 
 ## Features
 
@@ -34,6 +32,7 @@ Screenshots and a short behavior capture are stored under `docs/assets`.
 - Glass transition while pressing, long-pressing, or dragging between items
 - Reusable circular glass action button
 - Multi-tab demo app with Home, Search, Create, and Profile examples
+- Separated demo design components and sample model data
 
 ## Package
 
@@ -53,6 +52,13 @@ Demo app usage is under:
 
 ```text
 app/src/main/java/app/thdev/myapplication/ui/demo/LiquidGlassDemoScreen.kt
+```
+
+Demo design components and sample data are under:
+
+```text
+app/src/main/java/app/thdev/myapplication/ui/demo/components
+app/src/main/java/app/thdev/myapplication/ui/demo/model
 ```
 
 ## Agent Skill

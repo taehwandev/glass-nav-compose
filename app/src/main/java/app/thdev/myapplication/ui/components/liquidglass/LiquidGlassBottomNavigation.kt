@@ -560,6 +560,12 @@ private fun Modifier.liquidGlassSurface(
         layerBlock = layerBlock,
         onDrawSurface = {
             drawRect(surfaceColor)
+            drawLiquidGlassAgslOverlay(
+                shape = shape(),
+                surfaceColor = surfaceColor,
+                renderMode = renderMode,
+                progress = progress,
+            )
         },
     )
 }

@@ -58,8 +58,8 @@ object LiquidGlassNavigationDefaults {
         selectedSurfaceColor: Color = Color.White.copy(alpha = 0.68f),
         menuSurfaceColor: Color = Color.White.copy(alpha = 0.64f),
         selectedContainerColor: Color = Color.Transparent,
-        selectedContentColor: Color = Color(0xFF151515),
-        unselectedContentColor: Color = Color(0xFF303030).copy(alpha = 0.68f),
+        selectedContentColor: Color = Color(0xFF111111),
+        unselectedContentColor: Color = Color(0xFF2F343A).copy(alpha = 0.52f),
     ): LiquidGlassNavigationStyle {
         return LiquidGlassNavigationStyle(
             height = height,

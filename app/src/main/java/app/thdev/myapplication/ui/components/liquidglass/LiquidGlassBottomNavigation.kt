@@ -488,9 +488,9 @@ private fun resolveLiquidGlassColors(
             containerSurfaceColor = Color.White.copy(alpha = 0.58f),
             selectedSurfaceColor = Color.White.copy(alpha = 0.46f),
             actionSurfaceColor = Color.White.copy(alpha = 0.64f),
-            selectedContentColor = Color(0xFF151515),
-            unselectedContentColor = Color(0xFF252525).copy(alpha = 0.78f),
-            actionContentColor = Color(0xFF151515),
+            selectedContentColor = Color(0xFF111111),
+            unselectedContentColor = Color(0xFF2F343A).copy(alpha = 0.52f),
+            actionContentColor = Color(0xFF111111),
         )
 
         LiquidGlassTone.Dark -> LiquidGlassResolvedColors(
@@ -498,7 +498,7 @@ private fun resolveLiquidGlassColors(
             selectedSurfaceColor = Color(0xFF7E8A94).copy(alpha = 0.44f),
             actionSurfaceColor = Color(0xFF55616B).copy(alpha = 0.68f),
             selectedContentColor = Color.White.copy(alpha = 0.98f),
-            unselectedContentColor = Color.White.copy(alpha = 0.84f),
+            unselectedContentColor = Color(0xFFDCE6EF).copy(alpha = 0.54f),
             actionContentColor = Color.White.copy(alpha = 0.98f),
         )
     }

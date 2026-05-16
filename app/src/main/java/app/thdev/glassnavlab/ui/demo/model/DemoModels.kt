@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.demo.model
+package app.thdev.glassnavlab.ui.demo.model
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp as lerpColor

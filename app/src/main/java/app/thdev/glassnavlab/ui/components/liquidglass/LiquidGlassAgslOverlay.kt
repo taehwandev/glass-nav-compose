@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.components.liquidglass
+package app.thdev.glassnavlab.ui.components.liquidglass
 
 import android.graphics.RuntimeShader
 import android.os.Build

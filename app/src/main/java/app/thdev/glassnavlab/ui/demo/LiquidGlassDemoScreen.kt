@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.demo
+package app.thdev.glassnavlab.ui.demo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,21 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import app.thdev.myapplication.ui.components.liquidglass.LiquidGlassBackdropHost
-import app.thdev.myapplication.ui.components.liquidglass.LiquidGlassBottomNavigation
-import app.thdev.myapplication.ui.components.liquidglass.LiquidGlassNavigationAction
-import app.thdev.myapplication.ui.components.liquidglass.LiquidGlassNavigationItem
-import app.thdev.myapplication.ui.components.liquidglass.rememberLiquidGlassNavigationState
-import app.thdev.myapplication.ui.demo.components.DemoGlassIcon
-import app.thdev.myapplication.ui.demo.components.DemoHeader
-import app.thdev.myapplication.ui.demo.components.DemoSampleCard
-import app.thdev.myapplication.ui.demo.components.DemoSurfaceCard
-import app.thdev.myapplication.ui.demo.model.DemoBackgroundColor
-import app.thdev.myapplication.ui.demo.model.DemoDestination
-import app.thdev.myapplication.ui.demo.model.GlassNavIcon
-import app.thdev.myapplication.ui.demo.model.backdropPaletteForItem
-import app.thdev.myapplication.ui.demo.model.destinationFor
-import app.thdev.myapplication.ui.demo.model.sampleDemoPalette
+import app.thdev.glassnavlab.ui.components.liquidglass.LiquidGlassBackdropHost
+import app.thdev.glassnavlab.ui.components.liquidglass.LiquidGlassBottomNavigation
+import app.thdev.glassnavlab.ui.components.liquidglass.LiquidGlassNavigationAction
+import app.thdev.glassnavlab.ui.components.liquidglass.LiquidGlassNavigationItem
+import app.thdev.glassnavlab.ui.components.liquidglass.rememberLiquidGlassNavigationState
+import app.thdev.glassnavlab.ui.demo.components.DemoGlassIcon
+import app.thdev.glassnavlab.ui.demo.components.DemoHeader
+import app.thdev.glassnavlab.ui.demo.components.DemoSampleCard
+import app.thdev.glassnavlab.ui.demo.components.DemoSurfaceCard
+import app.thdev.glassnavlab.ui.demo.model.DemoBackgroundColor
+import app.thdev.glassnavlab.ui.demo.model.DemoDestination
+import app.thdev.glassnavlab.ui.demo.model.GlassNavIcon
+import app.thdev.glassnavlab.ui.demo.model.backdropPaletteForItem
+import app.thdev.glassnavlab.ui.demo.model.destinationFor
+import app.thdev.glassnavlab.ui.demo.model.sampleDemoPalette
 
 @Composable
 fun LiquidGlassDemoScreen() {

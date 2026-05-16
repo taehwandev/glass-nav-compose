@@ -1,4 +1,4 @@
-package app.thdev.myapplication
+package app.thdev.glassnavlab
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-# glass-nav-compose
+# GlassNavLab
 
 Adaptive glass bottom navigation for Jetpack Compose.
 
@@ -39,26 +39,26 @@ Screenshots are stored under `docs/assets`.
 The reusable component code is under:
 
 ```text
-app/src/main/java/app/thdev/myapplication/ui/components/liquidglass
+app/src/main/java/app/thdev/glassnavlab/ui/components/liquidglass
 ```
 
 Direct AGSL entry point:
 
 ```text
-app/src/main/java/app/thdev/myapplication/ui/components/liquidglass/LiquidGlassAgslOverlay.kt
+app/src/main/java/app/thdev/glassnavlab/ui/components/liquidglass/LiquidGlassAgslOverlay.kt
 ```
 
 Demo app usage is under:
 
 ```text
-app/src/main/java/app/thdev/myapplication/ui/demo/LiquidGlassDemoScreen.kt
+app/src/main/java/app/thdev/glassnavlab/ui/demo/LiquidGlassDemoScreen.kt
 ```
 
 Demo design components and sample data are under:
 
 ```text
-app/src/main/java/app/thdev/myapplication/ui/demo/components
-app/src/main/java/app/thdev/myapplication/ui/demo/model
+app/src/main/java/app/thdev/glassnavlab/ui/demo/components
+app/src/main/java/app/thdev/glassnavlab/ui/demo/model
 ```
 
 ## Agent Skill

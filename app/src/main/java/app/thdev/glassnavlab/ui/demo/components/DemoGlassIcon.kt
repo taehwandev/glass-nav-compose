@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.demo.components
+package app.thdev.glassnavlab.ui.demo.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import app.thdev.myapplication.ui.demo.model.GlassNavIcon
+import app.thdev.glassnavlab.ui.demo.model.GlassNavIcon
 
 @Composable
 internal fun DemoGlassIcon(type: GlassNavIcon, color: Color) {

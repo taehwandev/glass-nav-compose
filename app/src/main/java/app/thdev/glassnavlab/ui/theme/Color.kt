@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.theme
+package app.thdev.glassnavlab.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

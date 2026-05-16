@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.demo.components
+package app.thdev.glassnavlab.ui.demo.components
 
 import android.os.Build
 import androidx.compose.foundation.background
@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.thdev.myapplication.ui.demo.model.DemoDestination
+import app.thdev.glassnavlab.ui.demo.model.DemoDestination
 
 @Composable
 internal fun DemoHeader(destination: DemoDestination) {

@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "glass-nav-compose"
+rootProject.name = "GlassNavLab"
 include(":app")

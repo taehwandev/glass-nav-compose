@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.components.liquidglass
+package app.thdev.glassnavlab.ui.components.liquidglass
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape

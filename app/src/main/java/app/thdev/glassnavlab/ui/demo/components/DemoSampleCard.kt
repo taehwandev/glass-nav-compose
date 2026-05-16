@@ -1,4 +1,4 @@
-package app.thdev.myapplication.ui.demo.components
+package app.thdev.glassnavlab.ui.demo.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.thdev.myapplication.ui.demo.model.DemoSample
+import app.thdev.glassnavlab.ui.demo.model.DemoSample
 
 @Composable
 internal fun DemoSampleCard(

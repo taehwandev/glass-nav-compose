@@ -5,7 +5,7 @@ description: Use when working on this repository's Android Jetpack Compose Liqui
 
 # Android Liquid Glass Compose
 
-Use this skill for changes in `glass-nav-compose`.
+Use this skill for changes in `GlassNavLab`.
 
 ## Workflow
 
@@ -49,7 +49,7 @@ Use this skill for changes in `glass-nav-compose`.
 
    ```bash
    ./gradlew :app:installDebug
-   /Users/taehwankwon/Library/Android/sdk/platform-tools/adb shell am start -n app.thdev.myapplication/.MainActivity
+   /Users/taehwankwon/Library/Android/sdk/platform-tools/adb shell am start -n app.thdev.glassnavlab/.MainActivity
    ```
 
    Store screenshots, and only necessary behavior videos, in `docs/assets`.

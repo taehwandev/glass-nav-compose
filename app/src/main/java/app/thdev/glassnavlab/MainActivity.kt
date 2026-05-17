@@ -11,10 +11,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import app.thdev.glassnavlab.core.data.notmid.StaticNotmidAuthRepository
 import app.thdev.glassnavlab.core.data.notmid.StaticNotmidContentRepository
 import app.thdev.glassnavlab.core.designsystem.theme.notmidTheme
+import app.thdev.glassnavlab.core.domain.notmid.GetNotmidAuthStateUseCase
 import app.thdev.glassnavlab.core.domain.notmid.GetNotmidDestinationsUseCase
+import app.thdev.glassnavlab.core.domain.notmid.SignInToNotmidUseCase
+import app.thdev.glassnavlab.feature.notmid.api.NotmidDestinationIds
 import app.thdev.glassnavlab.feature.notmid.NotmidShellScreen
+import app.thdev.glassnavlab.feature.notmid.api.NotmidRouteEvent
 import app.thdev.glassnavlab.navigation.AppActivityRouteLauncher
 import app.thdev.glassnavlab.navigation.AppDeepLinkResolver
 import app.thdev.glassnavlab.navigation.rememberAppRouter
@@ -29,8 +34,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val notmidContentRepository = remember { StaticNotmidContentRepository() }
+            val notmidAuthRepository = remember { StaticNotmidAuthRepository() }
             val notmidDestinations = remember(notmidContentRepository) {
                 GetNotmidDestinationsUseCase(notmidContentRepository)()
+            }
+            val getNotmidAuthState = remember(notmidAuthRepository) {
+                GetNotmidAuthStateUseCase(notmidAuthRepository)
+            }
+            val signInToNotmid = remember(notmidAuthRepository) {
+                SignInToNotmidUseCase(notmidAuthRepository)
+            }
+            var authState by remember(notmidAuthRepository) {
+                mutableStateOf(getNotmidAuthState())
             }
             val appRouter = rememberAppRouter()
             val deepLinkResolver = remember { AppDeepLinkResolver() }
@@ -48,11 +63,20 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            notmidTheme {
+            notmidTheme(darkTheme = false) {
                 NotmidShellScreen(
                     destinations = notmidDestinations,
+                    authState = authState,
                     navigationStack = appRouter.notmidRouteStack,
                     onRouteEvent = { event -> appRouter.onRouteEvent(event) },
+                    onContinueLocalAuth = {
+                        authState = signInToNotmid()
+                    },
+                    onBrowseSignedOut = {
+                        appRouter.onRouteEvent(
+                            NotmidRouteEvent.DestinationSelected(NotmidDestinationIds.FEED),
+                        )
+                    },
                 )
             }
         }

@@ -18,6 +18,7 @@ import app.thdev.glassnavlab.core.designsystem.component.NotmidBottomNavigation
 import app.thdev.glassnavlab.core.designsystem.component.NotmidBottomNavigationItem
 import app.thdev.glassnavlab.core.designsystem.component.liquidglass.LiquidGlassBackdropHost
 import app.thdev.glassnavlab.core.designsystem.theme.NotmidTheme
+import app.thdev.glassnavlab.core.model.notmid.NotmidAuthState
 import app.thdev.glassnavlab.core.model.notmid.NotmidDestination as NotmidDestinationModel
 import app.thdev.glassnavlab.feature.capture.CaptureScreen
 import app.thdev.glassnavlab.feature.capture.api.CaptureRoute
@@ -52,8 +53,11 @@ import app.thdev.glassnavlab.core.router.RouteEvent
 @Composable
 fun NotmidShellScreen(
     destinations: List<NotmidDestinationModel>,
+    authState: NotmidAuthState,
     navigationStack: List<NotmidRoute> = listOf(FeedRoute),
     onRouteEvent: (RouteEvent) -> Unit = {},
+    onContinueLocalAuth: () -> Unit = {},
+    onBrowseSignedOut: () -> Unit = {},
 ) {
     val notmidDestinations = remember(destinations) {
         destinations.toNotmidDestinations()
@@ -90,7 +94,15 @@ fun NotmidShellScreen(
             .background(NotmidBackgroundColor),
         backgroundColor = NotmidBackgroundColor,
         content = {
-            when (activeRoute) {
+            if (activeRoute.requiresAuth && !authState.isAuthenticated) {
+                NotmidLoginScreen(
+                    destination = selectedDestination,
+                    authState = authState,
+                    listState = listState,
+                    onContinueLocal = onContinueLocalAuth,
+                    onBrowseSignedOut = onBrowseSignedOut,
+                )
+            } else when (activeRoute) {
                 ProfileSettingsRoute -> {
                     ProfileSettingsScreen(
                         parentDestination = selectedDestination,
@@ -207,6 +219,18 @@ private fun rememberDestinationListState(
         else -> feedListState
     }
 }
+
+private val NotmidRoute.requiresAuth: Boolean
+    get() = when (this) {
+        CaptureRoute,
+        InboxRoute,
+        ProfileRoute,
+        ProfileSettingsRoute,
+        is ChatThreadRoute,
+        -> true
+
+        else -> false
+    }
 
 @Composable
 private fun rememberNotmidNavigationItems(

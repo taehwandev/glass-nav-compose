@@ -54,6 +54,12 @@ Verify Android modules:
 ./gradlew test
 ```
 
+Run the full local verification gate:
+
+```bash
+bash scripts/verify-local.sh
+```
+
 ## Web And API
 
 The web/API side is a separate pnpm workspace inside the same git repository. It does not participate in Gradle builds.
@@ -79,6 +85,12 @@ Web: http://localhost:3000/notmid
 ```
 
 The web app should open directly into the product shell, not a marketing landing page.
+
+Smoke test web/API locally:
+
+```bash
+bash scripts/smoke-web-api.sh
+```
 
 ## Backend Direction
 

@@ -59,6 +59,13 @@ pnpm typecheck
 pnpm build:web
 ```
 
+Full local verification:
+
+```bash
+bash scripts/verify-local.sh
+bash scripts/smoke-web-api.sh
+```
+
 ## Final Response
 
 Mention:

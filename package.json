@@ -16,6 +16,8 @@
     "web:dev": "pnpm --filter @notmid/web dev",
     "typecheck": "pnpm -r typecheck",
     "build:api": "pnpm --filter @notmid/api build",
-    "build:web": "pnpm --filter @notmid/web build"
+    "build:web": "pnpm --filter @notmid/web build",
+    "verify": "bash scripts/verify-local.sh",
+    "verify:smoke": "bash scripts/smoke-web-api.sh"
   }
 }

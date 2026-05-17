@@ -1,18 +1,18 @@
 ---
 name: android-liquid-glass-compose
-description: Use when working on this repository's Android Jetpack Compose Liquid Glass navigation, AGSL rendering, backdrop behavior, demo screens, screenshots, or release polish.
+description: Use when working on this repository's Android Jetpack Compose Liquid Glass navigation, AGSL rendering, backdrop behavior, notmid shell screens, screenshots, or release polish.
 ---
 
 # Android Liquid Glass Compose
 
-Use this skill for changes in `GlassNavLab`.
+Use this skill for Liquid Glass UI-specific changes in the `notmid` repository and shell. For module boundaries, build-logic, design-system placement, data/domain layers, or broad refactors, start with `.agents/skills/glassnavlab-android-stewardship/SKILL.md` and use this skill for the Liquid Glass rendering details.
 
 ## Workflow
 
 1. Inspect the local code before changing behavior:
 
    ```bash
-   rg -n "LiquidGlass|RuntimeShader|Backdrop|Navigation" app/src/main/java
+   rg -n "LiquidGlass|RuntimeShader|Backdrop|Navigation" app core feature
    ```
 
 2. Keep component boundaries clear:
@@ -21,9 +21,9 @@ Use this skill for changes in `GlassNavLab`.
    - Stateless API: `LiquidGlassBottomNavigationBar`.
    - Style tokens: `LiquidGlassNavigationStyle`.
    - Android 13+ AGSL surface layer: `LiquidGlassAgslOverlay.kt`.
-   - Demo app shell: `ui/demo/LiquidGlassDemoScreen.kt`.
-   - Demo design components: `ui/demo/components`.
-   - Demo sample data: `ui/demo/model`.
+   - Product shell: `feature/notmid/impl/.../NotmidShellScreen.kt`.
+   - Feature design components: `feature/notmid/impl/.../components`.
+   - Feature UI mapping: `feature/notmid/impl/.../model`.
 
 3. Preserve the renderer split:
 
@@ -36,7 +36,7 @@ Use this skill for changes in `GlassNavLab`.
    - Selection is flat only after it settles.
    - Selection turns glass during long press, drag, or transition.
    - Selected content must be visibly stronger than unselected content.
-   - The trailing circular action must press as a circle, not as a square ripple.
+   - If a trailing circular action is used, it must press as a circle, not as a square ripple.
    - The bar must adapt to light/dark backdrops using two stable tone buckets.
 
 5. Verify Android work before finalizing:
@@ -57,7 +57,7 @@ Use this skill for changes in `GlassNavLab`.
 ## Quality Bar
 
 - Prefer existing Compose patterns and local style tokens over new one-off modifiers.
-- Keep demo screen orchestration separate from demo design components and sample data.
+- Keep shell orchestration separate from feature design components and product fake data.
 - Keep AGSL shader constants small and explain only non-obvious shader decisions.
 - Do not add a new dependency unless the repo cannot reasonably implement the behavior with Compose, Android graphics APIs, or the existing backdrop library.
 - Commit UI-visible changes with updated screenshots when possible.

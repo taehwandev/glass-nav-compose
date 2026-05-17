@@ -1,80 +1,123 @@
-# GlassNavLab
+# notmid
 
-Adaptive glass bottom navigation for Jetpack Compose.
+`notmid` is an open-source Android and web reference product for short video place discovery, map context, and place-aware chat.
 
-This repository contains a demo Android app that experiments with a Liquid Glass-inspired bottom navigation pattern using Compose.
-
-The renderer is split into two paths:
-
-- Android 13+: backdrop blur/refraction plus a direct `RuntimeShader` AGSL overlay for rim light, sheen, and active liquid distortion.
-- Android 12 and lower: the same component API with the lens/AGSL overlay disabled.
-
-The backdrop library is still used to capture and blur content behind the bar. The AGSL code in this repo is the procedural glass surface layer, not a replacement for background capture.
-
-## Preview
-
-Screenshots are stored under `docs/assets`.
-
-<p align="center">
-  <img src="docs/assets/glass-nav-idle.png" width="230" alt="Glass navigation over a bright surface" />
-  <img src="docs/assets/glass-nav-dark.png" width="230" alt="Glass navigation adapting over a darker surface" />
-  <img src="docs/assets/glass-nav-interaction.png" width="230" alt="Glass navigation while dragging between items" />
-</p>
-
-## Features
-
-- Jetpack Compose bottom navigation component
-- Direct AGSL surface shader on supported Android versions
-- Backdrop-based blur/refraction for content behind the bar
-- Legacy blur fallback for older Android versions
-- Two-step light/dark material adaptation based on background luminance
-- Flat selected pill after selection settles
-- Glass transition while pressing, long-pressing, or dragging between items
-- Reusable circular glass action button
-- Multi-tab demo app with Home, Search, Create, and Profile examples
-- Separated demo design components and sample model data
-
-## Package
-
-The reusable component code is under:
+The product direction is:
 
 ```text
-app/src/main/java/app/thdev/glassnavlab/ui/components/liquidglass
+not mid. show receipts.
 ```
 
-Direct AGSL entry point:
+This repository is intentionally shaped like a real service instead of a single Android sample. Android, web, server, shared contracts, product docs, and agent-facing project memory live together so URL contracts, API contracts, and feature behavior can evolve in one place.
+
+## Repository Shape
 
 ```text
-app/src/main/java/app/thdev/glassnavlab/ui/components/liquidglass/LiquidGlassAgslOverlay.kt
+app/                 Android entry point
+core/                Android core modules
+feature/             Android feature api/impl modules
+build-logic/         Android Gradle convention plugins
+
+apps/
+  api/               TypeScript API server
+  web/               React/Next.js web app
+
+packages/
+  contracts/         shared product routes, DTOs, fake fixtures
+  api-client/        typed web/server client wrapper
+
+docs/                product and architecture specs
+llm-wiki/            short task-oriented project memory for agents
+.agents/skills/      repo-local agent skills
 ```
 
-Demo app usage is under:
+## Android
+
+The Android app is Jetpack Compose based and keeps reusable UI inside `:core:designsystem`. Feature modules are split into `api` and `impl` where the boundary is useful. Cross-feature communication goes through route/event contracts instead of implementation dependencies.
+
+The Liquid Glass bottom navigation reference still lives in this repository, now under the notmid design system:
 
 ```text
-app/src/main/java/app/thdev/glassnavlab/ui/demo/LiquidGlassDemoScreen.kt
+core/designsystem/src/main/java/app/thdev/glassnavlab/core/designsystem/component/liquidglass
 ```
 
-Demo design components and sample data are under:
-
-```text
-app/src/main/java/app/thdev/glassnavlab/ui/demo/components
-app/src/main/java/app/thdev/glassnavlab/ui/demo/model
-```
-
-## Agent Skill
-
-This repository includes a repo-local agent skill for future Android/Compose work:
-
-```text
-.agents/skills/android-liquid-glass-compose/SKILL.md
-```
-
-## Run
+Run Android:
 
 ```bash
 ./gradlew :app:installDebug
 ```
 
-## Notes
+Verify Android modules:
 
-This is not an Apple API implementation. It is a Compose approximation of a glass navigation interaction pattern for Android.
+```bash
+./gradlew :app:compileDebugKotlin
+./gradlew test
+```
+
+## Web And API
+
+The web/API side is a separate pnpm workspace inside the same git repository. It does not participate in Gradle builds.
+
+Run the API server:
+
+```bash
+pnpm install
+pnpm api:dev
+```
+
+Run the web app:
+
+```bash
+pnpm web:dev
+```
+
+Local defaults:
+
+```text
+API: http://localhost:8787
+Web: http://localhost:3000/notmid
+```
+
+The web app should open directly into the product shell, not a marketing landing page.
+
+## Backend Direction
+
+notmid is server-first:
+
+```text
+Android / Web
+  -> notmid API Server
+      -> Postgres / Redis / Object Storage
+      -> Firebase Admin / FCM / App Check when useful
+```
+
+Firebase is an auxiliary platform, not the primary product database contract. It can support identity, push notifications, app integrity, crash reporting, analytics, emulator-based tests, or static/web hosting. Production secrets and service account keys must never be committed.
+
+## Deep Links
+
+Web links are product contracts. The same URL should work on web and resolve into an ordered Android route stack.
+
+Examples:
+
+```text
+https://thdev.app/notmid
+https://thdev.app/notmid/clips/{clipId}
+https://thdev.app/notmid/places/{placeId}
+https://thdev.app/notmid/profile/settings
+```
+
+## Open Source Safety
+
+Never commit:
+
+```text
+.env
+google-services.json
+Firebase Admin SDK JSON
+service account JSON
+App Check debug tokens
+keystores
+production API secrets
+```
+
+Commit example templates only, such as `.env.example` files with placeholder values.

@@ -1,5 +1,9 @@
 import type {
   NotmidClip,
+  NotmidAuthRequirement,
+  NotmidAuthSession,
+  NotmidAuthStatusResponse,
+  NotmidAuthUser,
   NotmidFeedResponse,
   NotmidInboxResponse,
   NotmidMapResponse,
@@ -8,6 +12,14 @@ import type {
 } from "./models";
 
 const generatedAt = "2026-05-17T00:00:00.000Z";
+
+export const notmidAuthRequiredActions: NotmidAuthRequirement[] = [
+  "capture",
+  "save",
+  "chat",
+  "profile-edit",
+  "moderation",
+];
 
 export const notmidPlaces: NotmidPlace[] = [
   {
@@ -130,6 +142,43 @@ export const notmidThreads: NotmidThread[] = [
     unreadCount: 0,
   },
 ];
+
+export const notmidFakeAccessToken = "notmid-fake-local-dev-token";
+
+export const notmidFakeAuthUser: NotmidAuthUser = {
+  id: "local-you",
+  handle: "you.local",
+  displayName: "Local You",
+  homeNeighborhood: "Seongsu",
+  avatarImageUrl:
+    "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80",
+  roles: ["creator", "local-dev"],
+};
+
+export const notmidFakeAuthSession: NotmidAuthSession = {
+  accessToken: notmidFakeAccessToken,
+  provider: "fake",
+  expiresAt: "2026-05-24T00:00:00.000Z",
+  user: notmidFakeAuthUser,
+};
+
+export const notmidSignedOutAuthStatus: NotmidAuthStatusResponse = {
+  source: "fixture",
+  generatedAt,
+  mode: "fake",
+  authenticated: false,
+  requiredFor: notmidAuthRequiredActions,
+};
+
+export const notmidFakeAuthStatus: NotmidAuthStatusResponse = {
+  source: "fixture",
+  generatedAt,
+  mode: "fake",
+  authenticated: true,
+  user: notmidFakeAuthUser,
+  sessionExpiresAt: notmidFakeAuthSession.expiresAt,
+  requiredFor: notmidAuthRequiredActions,
+};
 
 export const notmidFixtureFeed: NotmidFeedResponse = {
   source: "fixture",

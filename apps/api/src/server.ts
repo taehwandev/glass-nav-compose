@@ -5,10 +5,19 @@ import {
   findNotmidClip,
   findNotmidPlace,
   findNotmidThread,
+  notmidAuthRequiredActions,
+  notmidFakeAccessToken,
+  notmidFakeAuthSession,
+  notmidFakeAuthStatus,
   notmidFixtureFeed,
   notmidFixtureInbox,
   notmidFixtureMap,
+  notmidRoutes,
+  notmidSignedOutAuthStatus,
   resolveNotmidPathStack,
+  type NotmidAuthMode,
+  type NotmidAuthProvider,
+  type NotmidSignInRequest,
 } from "@notmid/contracts";
 
 const app = new Hono();
@@ -26,9 +35,65 @@ app.get("/health", (context) =>
   context.json({
     ok: true,
     service: "notmid-api",
-    mode: process.env.NOTMID_AUTH_MODE ?? "fake",
+    mode: getAuthMode(),
   }),
 );
+
+app.get("/v1/auth/status", (context) => {
+  const mode = getAuthMode();
+  const isFakeSession =
+    mode === "fake" && context.req.header("authorization") === `Bearer ${notmidFakeAccessToken}`;
+
+  if (isFakeSession) {
+    return context.json({
+      ...notmidFakeAuthStatus,
+      mode,
+      source: "api",
+    });
+  }
+
+  return context.json({
+    ...notmidSignedOutAuthStatus,
+    mode,
+    source: "api",
+    requiredFor: notmidAuthRequiredActions,
+  });
+});
+
+app.post("/v1/auth/fake-sign-in", async (context) => {
+  const mode = getAuthMode();
+
+  if (mode !== "fake") {
+    return context.json(
+      {
+        error: {
+          code: "fake_auth_disabled",
+          message: "Local fake sign-in is only available when NOTMID_AUTH_MODE=fake.",
+        },
+      },
+      409,
+    );
+  }
+
+  const request = await readSignInRequest(context.req);
+  const provider = request.provider ?? "fake";
+
+  if (!isAuthProvider(provider)) {
+    return context.json(
+      { error: { code: "invalid_auth_provider", message: "Unsupported auth provider." } },
+      400,
+    );
+  }
+
+  return context.json({
+    mode,
+    session: {
+      ...notmidFakeAuthSession,
+      provider,
+    },
+    nextPath: normalizeNextPath(request.returnTo),
+  });
+});
 
 app.get("/v1/feed", (context) => context.json(notmidFixtureFeed));
 
@@ -82,3 +147,40 @@ serve(
     console.log(`notmid API listening on http://localhost:${info.port}`);
   },
 );
+
+function getAuthMode(): NotmidAuthMode {
+  const mode = process.env.NOTMID_AUTH_MODE;
+
+  if (mode === "firebase" || mode === "disabled") {
+    return mode;
+  }
+
+  return "fake";
+}
+
+async function readSignInRequest(request: {
+  json: () => Promise<unknown>;
+}): Promise<Partial<NotmidSignInRequest>> {
+  try {
+    const body = await request.json();
+    return typeof body === "object" && body !== null ? (body as Partial<NotmidSignInRequest>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function isAuthProvider(provider: string): provider is NotmidAuthProvider {
+  return provider === "fake" || provider === "anonymous" || provider === "google";
+}
+
+function normalizeNextPath(returnTo: unknown): string {
+  if (
+    typeof returnTo !== "string" ||
+    !returnTo.startsWith("/notmid") ||
+    returnTo.startsWith("//")
+  ) {
+    return notmidRoutes.capture;
+  }
+
+  return returnTo;
+}

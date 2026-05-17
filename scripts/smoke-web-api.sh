@@ -73,12 +73,20 @@ wait_for_url "${WEB_BASE_URL}/notmid"
 
 echo "== API smoke =="
 curl -fsS "${API_BASE_URL}/health" | grep -q '"service":"notmid-api"'
+curl -fsS "${API_BASE_URL}/v1/auth/status" | grep -q '"authenticated":false'
+curl -fsS -X POST "${API_BASE_URL}/v1/auth/fake-sign-in" \
+  -H 'content-type: application/json' \
+  --data '{"provider":"fake","returnTo":"/notmid/capture"}' |
+  grep -q '"accessToken":"notmid-fake-local-dev-token"'
 curl -fsS "${API_BASE_URL}/v1/clips/latte-line-was-worth-it" | grep -q '"id":"latte-line-was-worth-it"'
 curl -fsS "${API_BASE_URL}/v1/deeplinks/resolve?url=https%3A%2F%2Fthdev.app%2Fnotmid%2Fprofile%2Fsettings" |
   grep -q '"profile-settings"'
+curl -fsS "${API_BASE_URL}/v1/deeplinks/resolve?url=https%3A%2F%2Fthdev.app%2Fnotmid%2Flogin%3Fnext%3D%252Fnotmid%252Fcapture" |
+  grep -q '"login"'
 
 echo "== Web smoke =="
 curl -fsS "${WEB_BASE_URL}/notmid" | grep -q 'latte line was worth it'
+curl -fsS "${WEB_BASE_URL}/notmid/login?next=%2Fnotmid%2Fcapture" | grep -q 'keep your receipts attached'
 curl -fsSI "${WEB_BASE_URL}/notmid/clips/latte-line-was-worth-it" | grep -q '200 OK'
 curl -fsSI "${WEB_BASE_URL}/notmid/places/neon-yard" | grep -q '200 OK'
 

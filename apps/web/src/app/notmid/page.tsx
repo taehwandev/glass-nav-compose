@@ -1,6 +1,7 @@
 import { createNotmidApiClient } from "@notmid/api-client";
 import { notmidFixtureFeed, notmidFixtureInbox, notmidFixtureMap } from "@notmid/contracts";
 import { NotmidProductShell } from "../../components/NotmidProductShell";
+import { getNotmidAuthStatus } from "../../lib/notmidAuth";
 
 export default async function NotmidPage() {
   const api = createNotmidApiClient({
@@ -8,13 +9,14 @@ export default async function NotmidPage() {
     fetcher: noStoreFetch,
   });
 
-  const [feed, map, inbox] = await Promise.all([
+  const [feed, map, inbox, auth] = await Promise.all([
     api.getFeed().catch(() => notmidFixtureFeed),
     api.getMap().catch(() => notmidFixtureMap),
     api.getInbox().catch(() => notmidFixtureInbox),
+    getNotmidAuthStatus(),
   ]);
 
-  return <NotmidProductShell feed={feed} map={map} inbox={inbox} />;
+  return <NotmidProductShell feed={feed} map={map} inbox={inbox} auth={auth} />;
 }
 
 const noStoreFetch: typeof fetch = (input, init) =>

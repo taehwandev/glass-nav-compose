@@ -65,6 +65,52 @@ export type NotmidInboxResponse = {
   threads: NotmidThread[];
 };
 
+export type NotmidAuthMode = "fake" | "firebase" | "disabled";
+
+export type NotmidAuthProvider = "fake" | "anonymous" | "google";
+
+export type NotmidAuthIntent = "browse" | "capture" | "chat" | "profile";
+
+export type NotmidAuthRequirement = "capture" | "save" | "chat" | "profile-edit" | "moderation";
+
+export type NotmidAuthUser = {
+  id: string;
+  handle: string;
+  displayName: string;
+  homeNeighborhood: string;
+  avatarImageUrl: string;
+  roles: string[];
+};
+
+export type NotmidAuthSession = {
+  accessToken: string;
+  provider: NotmidAuthProvider;
+  expiresAt: string;
+  user: NotmidAuthUser;
+};
+
+export type NotmidAuthStatusResponse = {
+  source: NotmidSource;
+  generatedAt: string;
+  mode: NotmidAuthMode;
+  authenticated: boolean;
+  user?: NotmidAuthUser;
+  sessionExpiresAt?: string;
+  requiredFor: NotmidAuthRequirement[];
+};
+
+export type NotmidSignInRequest = {
+  provider: NotmidAuthProvider;
+  intent?: NotmidAuthIntent;
+  returnTo?: string;
+};
+
+export type NotmidSignInResponse = {
+  mode: NotmidAuthMode;
+  session: NotmidAuthSession;
+  nextPath: string;
+};
+
 export type NotmidErrorResponse = {
   error: {
     code: string;

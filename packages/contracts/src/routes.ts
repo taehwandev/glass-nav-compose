@@ -4,6 +4,8 @@ export const notmidRoutes = {
   home: notmidWebBasePath,
   feed: `${notmidWebBasePath}/feed`,
   map: `${notmidWebBasePath}/map`,
+  login: (nextPath?: string) =>
+    `${notmidWebBasePath}/login${nextPath ? `?next=${encodeURIComponent(nextPath)}` : ""}`,
   capture: `${notmidWebBasePath}/capture`,
   inbox: `${notmidWebBasePath}/inbox`,
   profile: `${notmidWebBasePath}/profile`,
@@ -19,6 +21,7 @@ export const notmidRoutes = {
 export type NotmidRouteKind =
   | "feed"
   | "map"
+  | "login"
   | "capture"
   | "inbox"
   | "profile"
@@ -63,6 +66,19 @@ export function resolveNotmidPathStack(input: string): NotmidResolvedRouteStack 
 
   if (!section || section === "feed" || section === "home") {
     return { canonicalPath: notmidRoutes.feed, stack: [{ kind: "feed" }] };
+  }
+
+  if (section === "login") {
+    const nextPath = url.searchParams.get("next") ?? undefined;
+    return {
+      canonicalPath: notmidRoutes.login(nextPath),
+      stack: [
+        {
+          kind: "login",
+          params: nextPath ? { next: nextPath } : undefined,
+        },
+      ],
+    };
   }
 
   if (section === "clips" && id) {

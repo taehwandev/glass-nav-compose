@@ -1,4 +1,9 @@
-import type { NotmidFeedResponse, NotmidInboxResponse, NotmidMapResponse } from "@notmid/contracts";
+import type {
+  NotmidAuthStatusResponse,
+  NotmidFeedResponse,
+  NotmidInboxResponse,
+  NotmidMapResponse,
+} from "@notmid/contracts";
 import { notmidRoutes } from "@notmid/contracts";
 import Link from "next/link";
 import { MapBoard } from "./MapBoard";
@@ -7,11 +12,15 @@ type NotmidProductShellProps = {
   feed: NotmidFeedResponse;
   map: NotmidMapResponse;
   inbox: NotmidInboxResponse;
+  auth: NotmidAuthStatusResponse;
 };
 
-export function NotmidProductShell({ feed, map, inbox }: NotmidProductShellProps) {
+export function NotmidProductShell({ feed, map, inbox, auth }: NotmidProductShellProps) {
   const activeClip = feed.clips[0];
   const activePlace = feed.places.find((place) => place.id === activeClip.placeId) ?? feed.places[0];
+  const captureHref = auth.authenticated ? notmidRoutes.capture : notmidRoutes.login(notmidRoutes.capture);
+  const inboxHref = auth.authenticated ? notmidRoutes.inbox : notmidRoutes.login(notmidRoutes.inbox);
+  const profileHref = auth.authenticated ? notmidRoutes.profile : notmidRoutes.login(notmidRoutes.profile);
 
   return (
     <main className="product-shell">
@@ -23,13 +32,16 @@ export function NotmidProductShell({ feed, map, inbox }: NotmidProductShellProps
         <nav className="rail-nav" aria-label="notmid navigation">
           <Link href={notmidRoutes.feed}>Feed</Link>
           <Link href={notmidRoutes.map}>Map</Link>
-          <Link href={notmidRoutes.capture}>Capture</Link>
-          <Link href={notmidRoutes.inbox}>Inbox</Link>
-          <Link href={notmidRoutes.profile}>Profile</Link>
+          <Link href={captureHref}>Capture</Link>
+          <Link href={inboxHref}>Inbox</Link>
+          <Link href={profileHref}>Profile</Link>
         </nav>
         <div className="rail-status">
-          <span>{feed.source}</span>
+          <span>{auth.authenticated ? `@${auth.user?.handle}` : "signed out"}</span>
           <strong>{feed.clips.length} clips nearby</strong>
+          <Link className="rail-auth-link" href={auth.authenticated ? notmidRoutes.profile : notmidRoutes.login()}>
+            {auth.authenticated ? "View profile" : "Sign in"}
+          </Link>
         </div>
       </aside>
 

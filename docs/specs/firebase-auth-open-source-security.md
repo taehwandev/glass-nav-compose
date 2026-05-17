@@ -48,6 +48,17 @@ Domain-level auth model should stay Firebase-free:
 
 Features depend on `:core:auth:api`, not Firebase SDKs. If Firebase Auth is used, Android and web clients send Firebase ID tokens to `apps/api`; the API verifies tokens and maps them to notmid users.
 
+## Local Fake Auth Contract
+
+The first web/auth slice keeps Firebase optional and makes the auth boundary visible without committing credentials.
+
+- `GET /v1/auth/status` returns signed-out fake mode by default.
+- `POST /v1/auth/fake-sign-in` returns the deterministic local token `notmid-fake-local-dev-token`.
+- The web login page stores that token in an HTTP-only `/notmid` cookie for local gated routes.
+- Capture, saves, chats, profile edits, and moderation remain the protected action set.
+
+This fake token is not a credential and must not be accepted in production mode. When `NOTMID_AUTH_MODE` moves to `firebase`, clients should send Firebase ID tokens to `apps/api` and the API should map verified identities into notmid users.
+
 ## Module Shape
 
 Use `api` and `impl` only where it creates a useful boundary:
